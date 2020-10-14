@@ -1,1 +1,1 @@
-web: gunicorn appCarsGb.wsgi 
+web: gunicorn appCarsGb.wsgi
