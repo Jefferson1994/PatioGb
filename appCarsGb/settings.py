@@ -25,7 +25,7 @@ SECRET_KEY = '1q2#%7a-wjxnotzai2^@5pq)z=r21*9$)wr!tr6&lh7ntku!h('
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+s
 
 # Application definition
 
@@ -73,7 +73,7 @@ WSGI_APPLICATION = 'appCarsGb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
+#CAMBIOS
 DATABASES = {
     'default': {
         'ENGINE' : 'django.db.backends.postgresql_psycopg2',
