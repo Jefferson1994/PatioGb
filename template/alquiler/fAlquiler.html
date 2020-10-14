@@ -1,0 +1,34 @@
+{% extends 'base/index.html' %}
+{% block content %}
+
+
+ <div class="text-center">
+   <h1 class="h4 text-gray-900 mb-4">Alquila un Vehiculo Automor!</h1>
+   <hr>
+ </div>
+    <form class="user" method="post">
+    {% csrf_token %}
+    {% if carros %}
+    <select class="form-control" name="carro" id="carro">
+      {%for Carro in carros %}
+      <option value="{{Carro.id}}" >
+        {{Carro.placa}}
+      </option>
+      {% endfor %}
+    </select>
+
+
+    {{ form.as_p }}
+   <center>
+   <button class="btn btn-success" type="submit" >Guardar</button>
+   <a class="btn btn-primary" href="{% url 'cars:index' %}">Cancelar</a>	
+   {% else %}
+   <p>No hay carros para alquilar</p>
+   <a class="btn btn-primary" href="{% url 'cars:carro_crear' %}" >Nuevo Auto</a>
+   {% endif %}  
+   
+
+   </center>
+   </form>
+   <hr>
+{% endblock %}

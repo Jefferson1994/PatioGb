@@ -1,0 +1,121 @@
+{% extends 'base/index.html' %}
+{% block content %}
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          
+          
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Autos Registrados</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Marca</th>
+                      <th>Modelo</th>
+                      <th>Placa</th>
+                      <th>Descripcion</th>
+                       <th>Estado</th>
+                      <th>Accion</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Id</th>
+                      <th>Marca</th>
+                      <th>Modelo</th>
+                      <th>Placa</th>
+                      <th>Descripcion</th>
+                      <th>Estado</th>
+                      <th>Accion</th>
+                    </tr>
+                  </tfoot>
+                  	{% if object_list %}
+                  	{% for carros in object_list %}
+                  	<tr>
+                  		<td>{{ carros.id}}</td>
+						          <td>{{ carros.marca}}</td>
+						          <td>{{ carros.modelo}}</td>
+                      <td>{{ carros.placa}}</td>
+						          <td>{{ carros.descripcion}}</td>
+                      {% if carros.EstadoVenta%}
+                      <td>Vendido</td>
+                      {% else%}
+                      <td>En venta</td>
+                      {% endif%}
+                      <td>
+                        <a class="btn btn-danger"href="{% url 'cars:carEliminar' carros.id %}">Eliminar</a>
+                        <a class="btn btn-primary"href="{% url 'cars:carEditar' carros.id %}">Editar</a>
+
+                      </td>
+
+
+
+
+                  	</tr>
+                  	{% endfor %}
+                  	{% else %}
+                  	<h1>No ay reguistros</h1>
+                  	{% endif %}
+
+
+                  <tbody>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+ 
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,232 @@
+{% extends 'base/index.html' %}
+{% block content %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          
+          
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Alquiler Autos Registrados</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                   
+                      <th>Cliente</th>
+                      <th>Placa Carro</th>
+                      <th>Dia E.</th>
+                      <th>Valor</th>
+                      <th>Accion</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                   
+                      <th>Cliente</th>
+                      <th>Placa Carro</th>
+                      <th>Dia E.</th>
+                      <th>Valor</th>
+                      <th>Accion</th>
+                    </tr>
+                  </tfoot>
+                  	{% if  alquiler %}
+                  	{% for alquile in alquiler %}
+                    {% if alquile.terminado%}
+                     {% if alquile.idcar.EstadoAlquiler%}
+                  	<tr>
+                  		
+                       <td>{{ alquile.idcliente}}</td>
+						          <td>{{ alquile.idcar}}</td>
+                      <td>{{ alquile.F_Entrega}}</td>
+						          <td>{{ alquile.valor}}</td>
+                      <td>
+                         <a href="{% url 'cars:reporte_personas_pdf' alquile.id %}" class="btn btn-success">Imprimir</a>
+                        <a href="#" class="btn btn-success" onclick="getEgresoData(this)" data-id="{{alquile.id}}" type="" data-toggle="modal" data-target="#verModal">
+                        Editar
+                        </a>
+                        <a class="btn btn-primary"href="#" data-toggle="modal" data-target="#logoutModall">Devolver</a>
+                        <div class="modal fade" id="logoutModall" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Devolución Auto</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Aceptar si el Auto va ser entregado</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <a class="btn btn-primary" href="{% url 'cars:devolver' pk=alquile.id %}">Aceptar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+                   
+                         <a class="btn btn-primary"href="#" data-toggle="modal" data-target="#logoutModall">Borrar</a>
+                          <div class="modal fade" id="logoutModall" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Borrar Alquiler</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Aceptar si desea eliminar el alquiler</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <a class="btn btn-primary" href="{% url 'cars:eliminaralq' pk=alquile.id %}">Aceptar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+                        
+
+                      </td>
+
+
+
+
+                  	</tr>
+                    {% endif %}
+                    {% endif %}
+                  	{% endfor %}
+                  	{% else %}
+                  	<h1>No ay reguistros</h1>
+                  	{% endif %}
+
+
+                  <tbody>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+    <div class="modal fade" id="verModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-info" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Alquiler</h4>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <form action="#" method="POST">
+            {% csrf_token %}
+          <div class="modal-body">
+            <input type="hidden" name="pk_Venta" id="pk_Venta" value="">
+            {% bootstrap_form form %}
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+            <button class="btn btn-info" type="submit">Guardar Cambios</button>
+          </div>
+        </form>
+        <!-- /.modal-content-->
+      </div>
+  <!-- /.modal-dialog-->
+  </div>
+  <!-- /.modal-->
+</div>
+
+<script>
+  // async no depende de las otras funciones 
+  async function getEgresoData(elemt){
+    let pkEgreso = elemt.dataset.id
+    let url = `/get_alquiler_id/${pkEgreso}`
+    let egresoData = await getData(url)
+    fillFields(egresoData)
+  }
+
+  async function getData(url){
+    console.log(`url: ${url}`)
+    let response = await fetch(url)
+    let data = await response.json()
+    if (data != "[]") {
+      return egresoData = data[0]
+    }
+      console.log(' no hay egresos')
+      throw new Error('engreso invalida')
+  }
+  // Llenar campos 
+  function fillFields(egresoData){
+    document.getElementById('id_idcliente').value = egresoData.fields.idcliente
+    document.getElementById('id_Fecha_Salida').value = egresoData.fields.Fecha_Salida
+    document.getElementById('id_F_Entrega').value = egresoData.fields.F_Entrega
+    document.getElementById('id_llantas').value = egresoData.fields.llantas
+    document.getElementById('id_motor').value = egresoData.fields.motor
+    document.getElementById('id_pintura').value = egresoData.fields.pintura
+    document.getElementById('id_luces').value = egresoData.fields.luces
+    document.getElementById('id_kmActual').value = egresoData.fields.kmActual
+     document.getElementById('id_cajas').value = egresoData.fields.cajas
+    document.getElementById('id_descripcionA').value = egresoData.fields.descripcionA
+    document.getElementById('id_valor').value = egresoData.fields.valor
+   
+    console.log("uno   "+egresoData.pk)
+    console.log("dos   "+egresoData.fields.pk)
+    console.log("tres   "+egresoData.id)
+    console.log("tres   "+egresoData.fields.id)
+  }
+  // abrir modal ver 
+  function abrir_modal(url){
+        $('#popup').load(url, function(){
+          $(this).modal('show');
+        });
+        return false;
+}
+</script>
+
+
+
+
+
+{% endblock %}
+ 

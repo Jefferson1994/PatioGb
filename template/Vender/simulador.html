@@ -1,0 +1,78 @@
+{% extends 'base/index.html' %}
+{% block content %}
+
+
+ <div class="text-center">
+   <h1 class="h4 text-gray-900 mb-4">Simulador Cuotas!</h1>
+   <hr>
+ </div>
+
+   <h5 >Valor Total del Vehiculo  </h5>
+   <input type="text" class="form-control"  id="cuota1">
+   <h5 >Cuota Inicial  </h5>
+   <input type="text" class="form-control"  id="num1">
+   <h5>Numero de Meses  </h5>
+   <input type="text" class="form-control"  id="num2">
+   
+   <center>
+    <br>
+   <button class="btn btn-success" onclick="myFunction()" >Calcular</button>
+   <br>
+   <br>
+   <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Valor Total</th>
+      <th scope="col">Cuota I</th>
+       <th scope="col">Saldo</th>
+      <th scope="col">Meses</th>
+      <th scope="col">Interes Mes</th>
+      <th scope="col">Interes Total</th>
+      <th scope="col">Cuota Mensual</th>
+      <th scope="col">Total a pagar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row" id="inicial"></th>
+      <td id="cuota"></td>
+      <td id="saldo"></td>
+      <td id="mes"></td>
+      <td id="Imes"></td>
+      <td id="Itotal"></td>
+      <td id="mensual"></td>
+      <td id="Totalp"></td>
+    </tr>
+  </tbody>
+</table>
+   
+   </center>
+   
+  <script>  
+ function myFunction() {  
+   var x,y,suma,text;  
+   a = document.getElementById("cuota1").value;
+   x = document.getElementById("num1").value;  
+   y = document.getElementById("num2").value;  
+   if (isNaN(x) || isNaN(y)|| isNaN(a)) {  
+     text = "Es necesarios introducir dos números válidos";  
+   } else {  
+     //si no ponemos parseFloat concatenaría x con y  
+     total1=parseFloat(a)-parseFloat(x);
+     interesMes=(parseFloat(total1)*parseFloat(3))/100;
+     Itotal=parseFloat(interesMes)*parseFloat(y);
+     interesTotal=parseFloat(interesMes)*parseFloat(y);
+     totalPagar= parseFloat(interesTotal)+ parseFloat(total1);
+     Mensual= parseFloat(totalPagar)/ parseFloat(y); 
+   }
+   document.getElementById("inicial").innerHTML = a;   
+   document.getElementById("cuota").innerHTML = x;
+    document.getElementById("saldo").innerHTML = total1;
+   document.getElementById("mes").innerHTML = y;   
+   document.getElementById("Imes").innerHTML = interesMes;
+    document.getElementById("Itotal").innerHTML = Itotal;
+     document.getElementById("mensual").innerHTML = Mensual;
+  document.getElementById("Totalp").innerHTML = totalPagar;
+ }  
+ </script>  
+{% endblock %}

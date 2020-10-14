@@ -1,0 +1,60 @@
+{% extends 'base/index.html' %}
+{% block content %}
+
+
+
+ <div class="text-center">
+   <h1 class="h4 text-gray-900 mb-4">Reportes GB MOTOR´S!</h1>
+   <hr>
+ </div>
+ <center>
+     <div class="container-fluid">
+
+          <!-- Page Heading -->
+      
+         
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <div class="col-xl-8 col-lg-7">
+
+              <!-- Area Chart -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Ventas</h6>
+                </div>
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                  </div>
+                  <hr>
+                  Total de Ventas de acuerdo a cada mes.
+                </div>
+              </div>
+
+              <!-- Bar Chart -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Alquiler</h6>
+                </div>
+                <div class="card-body">
+                  <div class="chart-bar">
+                    <canvas id="myBarChart"></canvas>
+                  </div>
+                  <hr>
+                  Total de Alquiler de acuerdo a cada mes
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Donut Chart -->
+          
+          </div>
+
+        </div>
+</center>
+  
+    
+{% endblock %}

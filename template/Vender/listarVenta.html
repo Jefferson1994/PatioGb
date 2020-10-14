@@ -1,0 +1,192 @@
+{% extends 'base/index.html' %}
+{% block content %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+
+        <!-- Page Heading -->
+
+
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Lista de Autos Vendidos</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Placa Carro</th>
+                    <th>Valor Compra</th>
+                    <th>Valor Venta</th>
+                    <th>Accion</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Placa Carro</th>
+                    <th>Valor Compra</th>
+                    <th>Valor Venta</th>
+                    <th>Accion</th>
+                  </tr>
+                </tfoot>
+                {% if ventas %}
+                {% for venta in ventas %}
+                <tr>
+                  <td>{{ venta.id}}</td>
+                  <td>{{ venta.idcliente}}</td>
+                  <td>{{ venta.idcar}}</td>
+                  <td>{{ venta.idcar.PrecioCompra}}</td>
+                  <td>{{ venta.PrecioVenta}}</td>
+                  <td>
+                    <a href="{% url 'cars:doc_ventas_pdf' venta.id  %}" class="btn btn-success">Imprimir</a>
+                    <a href="#" class="btn btn-success" onclick="getEgresoData(this)" data-id="{{venta.id}}" type=""
+                      data-toggle="modal" data-target="#verModal">
+                      Editar
+                    </a>
+
+                    <a class="btn btn-primary" href="{% url 'cars:eliminarventa' venta.id %}">Borrar</a>
+
+                  </td>
+
+
+
+
+                </tr>
+                {% endfor %}
+                {% else %}
+                <h1>No ay reguistros</h1>
+                {% endif %}
+
+
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+
+    <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<!-- /.modal editar-->
+<div class="modal fade" id="verModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Venta</h4>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form action="{% url 'cars:guardar_editado' %}" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <input type="hidden" name="id_Venta" id="id_Venta" value="">
+          <input type="hidden" name="pk_car_ant" id="pk_car_ant" value="">
+          {% bootstrap_form form %}
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+          <button class="btn btn-info" type="submit">Guardar Cambios</button>
+        </div>
+      </form>
+      <!-- /.modal-content-->
+    </div>
+    <!-- /.modal-dialog-->
+  </div>
+  <!-- /.modal-->
+</div>
+
+<script>
+  // async no depende de las otras funciones 
+  async function getEgresoData(elemt) {
+    let pkEgreso = elemt.dataset.id
+    let url = `/get_venta_id/${pkEgreso}`
+    let egresoData = await getData(url)
+    fillFields(egresoData)
+  }
+
+  async function getData(url) {
+    console.log(`url: ${url}`)
+    let response = await fetch(url)
+    let data = await response.json()
+    if (data != "[]") {
+      return egresoData = data[0]
+    }
+    console.log(' no hay egresos')
+    throw new Error('engreso invalida')
+  }
+  // Llenar campos 
+  function fillFields(egresoData) {
+    document.getElementById('id_idcar').value = egresoData.fields.idcar
+    document.getElementById('pk_car_ant').value = egresoData.fields.idcar
+    document.getElementById('id_idcliente').value = egresoData.fields.idcliente
+    document.getElementById('id_MatriculadoPor').value = egresoData.fields.MatriculadoPor
+    document.getElementById('id_PrecioVenta').value = egresoData.fields.PrecioVenta
+    document.getElementById('id_Fecha_Documentacion').value = egresoData.fields.Fecha_Documentacion
+    document.getElementById('id_CiudadVenta').value = egresoData.fields.CiudadVenta
+    document.getElementById('id_Fecha_Venta').value = egresoData.fields.Fecha_Venta
+    document.getElementById('id_descripcionA').value = egresoData.fields.descripcionA
+    document.getElementById('id_Venta').value = egresoData.pk
+
+  }
+  // abrir modal ver 
+  function abrir_modal(url) {
+    $('#popup').load(url, function () {
+      $(this).modal('show');
+    });
+    return false;
+  }
+</script>
+
+
+
+
+
+
+{% endblock %}
